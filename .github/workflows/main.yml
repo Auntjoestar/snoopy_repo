@@ -13,7 +13,7 @@ jobs:
     name: Test Django Project with PostgreSQL
     runs-on: ubuntu-latest
     env:
-      DB_HOST: charlie
+      DB_HOST: db
       DB_PORT: 5432
       DB_NAME: testdb
       DB_USER: test
@@ -22,7 +22,7 @@ jobs:
       HTTP_SERVER: 8000
 
     services:
-      charlie:
+      db:
         image: postgres:latest
         env:
           POSTGRES_USER: test
@@ -74,8 +74,8 @@ jobs:
           
       - name: Create Media Directory
         run: |
-          mkdir -p /usr/src/app/media
-          chmod 777 /usr/src/app/media  # Set permissions to allow all users to read/write
+          mkdir -p $HOME/media
+          chmod 777 $HOME/media  # Set permissions to allow all users to read/write
 
       - name: Test Docker Compose Dev
         run: |
