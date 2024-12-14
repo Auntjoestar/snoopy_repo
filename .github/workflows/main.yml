@@ -66,18 +66,12 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      db:
+      charlie:
         image: postgres:latest
         env:
-          DB_HOST: localhost
-          DB_PORT: 5432
           DB_NAME: testdb
           DB_USER: test
           DB_PASSWORD: test
-          ALLOWED_HOSTS: "['127.0.0.1', 'localhost', '0.0.0.0']"
-          HTTP_SERVER: 8000  
-          UID: 1000
-          GID: 1000
         ports:
           - "5432:5432"
 
