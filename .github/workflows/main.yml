@@ -88,13 +88,6 @@ jobs:
           echo "DB_PASSWORD=test" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
-
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 2
-          done
     
       - name: Test Docker Compose Dev
         run: |
