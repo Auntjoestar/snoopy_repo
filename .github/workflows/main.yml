@@ -80,7 +80,7 @@ jobs:
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
   
       - name: Check Media Directory Permissions
-      run: |
+        run: |
           ls -ld /usr/src/app/media
 
       - name: Test Docker Compose Dev
