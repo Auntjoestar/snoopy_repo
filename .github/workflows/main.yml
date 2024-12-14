@@ -84,14 +84,27 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
+    
+      - name: Set up environment variables
+        run: echo "DB_HOST=localhost" >> $GITHUB_ENV
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: testdb
+          DB_USER: test
+          DB_PASSWORD: test
+          ALLOWED_HOSTS: "['127.0.0.1', 'localhost', '0.0.0.0']"
+          HTTP_SERVER: 8000
+          UID: 1000
+          GID: 1000
+    
       - name: Test Docker Compose Dev
         run: |
           docker compose -f docker-compose-dev.yml up -d
           docker compose -f docker-compose-dev.yml ps
           docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
           docker compose -f docker-compose-dev.yml down
-
+    
       - name: Test Docker Compose Prod
         run: |
           docker compose -f docker-compose.yml up -d
