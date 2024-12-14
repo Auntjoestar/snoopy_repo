@@ -13,7 +13,7 @@ jobs:
     name: Test Django Project with PostgreSQL
     runs-on: ubuntu-latest
     env:
-      DB_HOST: charlie
+      DB_HOST: db
       DB_PORT: 5432
       DB_NAME: testdb
       DB_USER: test
@@ -22,7 +22,7 @@ jobs:
       HTTP_SERVER: 8000
 
     services:
-      charlie:
+      db:
         image: postgres:latest
         env:
           POSTGRES_USER: test
@@ -50,13 +50,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 2
-          done
-
       - name: Run Django Tests
         run: |
           python manage.py test snoopy_images/
@@ -78,10 +71,18 @@ jobs:
           echo "DB_PASSWORD=test" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
+<<<<<<< HEAD
   
       - name: Check Media Directory Permissions
         run: |
           ls -ld /usr/src/app/media
+=======
+          
+      - name: Create Media Directory
+        run: |
+          mkdir -p $HOME/media
+          chmod 777 $HOME/media  # Set permissions to allow all users to read/write
+>>>>>>> 41e61c804ccfe525b5a76e251eb9ca9b35e14e7d
 
       - name: Test Docker Compose Dev
         run: |
