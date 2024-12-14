@@ -6,6 +6,5 @@ RUN pip installl --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app/
 
-COPY .env /usr/src/app/
 
 EXPOSE 8000

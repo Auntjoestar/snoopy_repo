@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import request, HttpResponse
+from django.http import request, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
@@ -8,7 +8,7 @@ from .models import User, Image
 from .forms import ImageForm
 # Create your views here.
 
-class HttpResponseSeeOthers(HttpResponse):
+class HttpResponseSeeOthers(HttpResponseRedirect):
     status_code = 303
 
 login_required = login_required(login_url='/login')
