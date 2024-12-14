@@ -17,6 +17,8 @@ jobs:
 
       - name: Set up environment variables
         run: |
+          echo "UID=$(id -u)" >> $GITHUB_ENV
+          echo "GID=$(id -g)" >> $GITHUB_ENV
           echo "DB_HOST=charlie" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DB_NAME=testdb" >> $GITHUB_ENV
@@ -29,6 +31,11 @@ jobs:
         run: |
           sudo mkdir -p ./media/images
           sudo chown -R $USER:$USER ./media
+
+      - name: Fix media permissions
+        run: |
+          sudo chmod -R 777 ./media
+          sudo chown -R $USER:$USER ./media  # Ensure the user inside the container has ownership
 
       - name: Test Docker Compose Dev
         run: |
