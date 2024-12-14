@@ -18,7 +18,7 @@ jobs:
       DB_NAME: testname
       DB_USER: testuser
       DB_PASSWORD: testpassword
-      ALLOWED_HOSTS: "localhost"
+      ALLOWED_HOSTS: "127.0.0.1,localhost,0.0.0.0"
       HTTP_SERVER: 8000
 
     steps:
