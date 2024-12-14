@@ -1,0 +1,4 @@
+Django==5.1.4
+Pillow==11.0.0
+python-dotenv==1.0.1
+dj-inmemorystorage==2.1.0

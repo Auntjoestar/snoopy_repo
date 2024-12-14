@@ -1,0 +1,14 @@
+{% extends "snoopy_images/layout.html" %}
+{% block title %}Login{% endblock title %}
+{% block body %}
+  <h1>Login</h1>
+  <form action="/login" method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <input type="submit" value="Log in">
+  </form>
+  <p>Don't have an account? <a href="/signup">Sign up</a></p>
+{% endblock body %}

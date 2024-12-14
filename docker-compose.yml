@@ -1,0 +1,25 @@
+services:
+  snoopy:
+    user: "${UID}:${GID}"
+    build:
+      context: .
+      dockerfile: DOCKERFILE
+    ports:
+      - "${HTTP_SERVER}:8000"
+    depends_on:
+      - charlie
+    command: python snoopy_repo/manage.py runserver 0.0.0.0:8000
+  charlie:
+    image: postgres
+    restart: always
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - charlie-data:/var/lib/postgresql/data
+
+volumes:
+  charlie-data:

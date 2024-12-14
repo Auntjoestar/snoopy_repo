@@ -1,0 +1,20 @@
+{% extends "snoopy_images/layout.html" %}
+{% block body %}
+{% if user.is_authenticated %}
+    <h1>Images</h1>
+    <a href="{% url 'upload' %}">Upload image</a>
+    <ul>
+        {% for image in images %}
+            <li>
+                <img src="{{ image.image.url }}" alt="{{ image.title }}">
+                <p>{{ image.title }}</p>
+                <p>{{ image.description }}</p>
+                <p>{{ image.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'logout' %}">Log out</a>
+{% else %}
+    <p>You need to <a href="{% url 'login' %}">log in</a> to see the images.</p>
+{% endif %}
+{% endblock body %}

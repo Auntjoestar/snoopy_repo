@@ -1,0 +1,19 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
+
+# Docker
+*.log
+*.pyc
+__pycache__/
+*.env
+.env.*
+docker-compose.override.yml
+docker-compose.override.*.yml
+
+.devcontainer/

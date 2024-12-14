@@ -1,0 +1,11 @@
+{% extends "snoopy_images/layout.html" %}
+{% block title %}Upload{% endblock title %}
+{% block body %}
+    <h2>Upload Image</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+    <a href="{% url 'index' %}">Back to images</a>
+{% endblock body %}
