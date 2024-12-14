@@ -87,23 +87,20 @@ jobs:
     
       - name: Set up environment variables
         run: |
-          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_HOST=charlie" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DB_NAME=testdb" >> $GITHUB_ENV
           echo "DB_USER=test" >> $GITHUB_ENV
           echo "DB_PASSWORD=test" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
-        env:
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: testdb
-          DB_USER: test
-          DB_PASSWORD: test
-          ALLOWED_HOSTS: "['127.0.0.1', 'localhost', '0.0.0.0']"
-          HTTP_SERVER: 8000
-          UID: 1000
-          GID: 1000
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
     
       - name: Test Docker Compose Dev
         run: |
