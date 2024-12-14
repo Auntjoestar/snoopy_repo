@@ -6,4 +6,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app/
 
+RUN mkdir -p /usr/src/app/media && \
+    chmod 777 /usr/src/app/media
+
 EXPOSE 8000
