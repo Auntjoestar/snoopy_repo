@@ -61,6 +61,44 @@ jobs:
         run: |
           python manage.py test snoopy_images/
 
+  test-docker-compose:
+    name: Test Docker Compose (Dev and Prod)
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:latest
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: testdb
+          DB_USER: test
+          DB_PASSWORD: test
+          ALLOWED_HOSTS: "['127.0.0.1', 'localhost', '0.0.0.0']"
+          HTTP_SERVER: 8000  
+          UID: 1000
+          GID: 1000
+        ports:
+          - "5432:5432"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Test Docker Compose Dev
+        run: |
+          docker compose -f docker-compose-dev.yml up -d
+          docker compose -f docker-compose-dev.yml ps
+          docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
+          docker compose -f docker-compose-dev.yml down
+
+      - name: Test Docker Compose Prod
+        run: |
+          docker compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml ps
+          docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
+          docker compose -f docker-compose.yml down
+
   build-and-push-docker:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
