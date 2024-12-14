@@ -103,6 +103,10 @@ jobs:
           docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
           docker compose -f docker-compose.yml down
 
+      - name: Check PostgreSQL Logs
+        run: |
+          docker compose -f docker-compose-dev.yml logs charlie
+
   build-and-push-docker:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
