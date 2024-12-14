@@ -29,6 +29,11 @@ jobs:
         run: |
           docker compose -f docker-compose-dev.yml up -d
           docker compose -f docker-compose-dev.yml ps
+          # Wait for PostgreSQL to be ready
+          until docker exec snoopy_repo-charlie-1 pg_isready -h charlie -p 5432 -U test; do
+            echo "Waiting for PostgreSQL to be ready...";
+            sleep 5;
+          done
           docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
           docker compose -f docker-compose-dev.yml down --volumes
 
@@ -36,6 +41,11 @@ jobs:
         run: |
           docker compose -f docker-compose.yml up -d
           docker compose -f docker-compose.yml ps
+          # Wait for PostgreSQL to be ready
+          until docker exec snoopy_repo-charlie-1 pg_isready -h charlie -p 5432 -U test; do
+            echo "Waiting for PostgreSQL to be ready...";
+            sleep 5;
+          done
           docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
           docker compose -f docker-compose.yml down --volumes
 
