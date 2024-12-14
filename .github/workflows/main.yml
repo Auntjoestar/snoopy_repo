@@ -12,6 +12,14 @@ jobs:
   test-django:
     name: Test Django Project
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: testhost
+      DB_PORT: testport
+      DB_NAME: testname
+      DB_USER: testuser
+      DB_PASSWORD: testpassword
+      ALLOWED_HOSTS: localhost
+      HTTP_SERVER: 8000
 
     steps:
       - name: Checkout Code
