@@ -86,7 +86,14 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Set up environment variables
-        run: echo "DB_HOST=localhost" >> $GITHUB_ENV
+        run: |
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=5432" >> $GITHUB_ENV
+          echo "DB_NAME=testdb" >> $GITHUB_ENV
+          echo "DB_USER=test" >> $GITHUB_ENV
+          echo "DB_PASSWORD=test" >> $GITHUB_ENV
+          echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
+          echo "HTTP_SERVER=8000" >> $GITHUB_ENV
         env:
           DB_HOST: localhost
           DB_PORT: 5432
