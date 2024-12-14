@@ -13,7 +13,7 @@ jobs:
     name: Test Django Project with PostgreSQL
     runs-on: ubuntu-latest
     env:
-      DB_HOST: localhost
+      DB_HOST: db
       DB_PORT: 5432
       DB_NAME: testdb
       DB_USER: test
