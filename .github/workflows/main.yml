@@ -50,13 +50,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER; do
-            echo "Waiting for PostgreSQL to be ready..."
-            sleep 2
-          done
-
       - name: Run Django Tests
         run: |
           python manage.py test snoopy_images/
@@ -78,10 +71,11 @@ jobs:
           echo "DB_PASSWORD=test" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
-  
-      - name: Check Media Directory Permissions
+          
+      - name: Create Media Directory
         run: |
-          ls -ld /usr/src/app/media
+          mkdir -p /usr/src/app/media
+          chmod 777 /usr/src/app/media  # Set permissions to allow all users to read/write
 
       - name: Test Docker Compose Dev
         run: |
