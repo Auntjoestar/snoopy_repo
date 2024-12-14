@@ -13,7 +13,7 @@ jobs:
     name: Test Django Project with PostgreSQL
     runs-on: ubuntu-latest
     env:
-      DB_HOST: db
+      DB_HOST: charlie
       DB_PORT: 5432
       DB_NAME: testdb
       DB_USER: test
@@ -22,7 +22,7 @@ jobs:
       HTTP_SERVER: 8000
 
     services:
-      db:
+      charlie:
         image: postgres:latest
         env:
           POSTGRES_USER: test
@@ -79,6 +79,10 @@ jobs:
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
   
+      - name: Check Media Directory Permissions
+      run: |
+          ls -ld /usr/src/app/media
+
       - name: Test Docker Compose Dev
         run: |
           docker compose -f docker-compose-dev.yml up -d
