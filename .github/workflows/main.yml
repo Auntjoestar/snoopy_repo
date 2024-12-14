@@ -12,20 +12,30 @@ jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v3	
-        
-    - name: Test Docker Compose Dev
-      run: |
-            docker compose -f docker-compose-dev.yml up -d
-            docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
-            docker compose -f docker-compose-dev.yml down
+      - name: Check out code
+        uses: actions/checkout@v3
 
-    - name: Test Docker Compose Prod
-      run: |
-        docker compose -f docker-compose.yml up -d
-        docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
-        docker compose -f docker-compose.yml down
+      - name: Set up environment variables
+        run: |
+          echo "DB_HOST=charlie" >> $GITHUB_ENV
+          echo "DB_PORT=5432" >> $GITHUB_ENV
+          echo "DB_NAME=testdb" >> $GITHUB_ENV
+          echo "DB_USER=test" >> $GITHUB_ENV
+          echo "DB_PASSWORD=test" >> $GITHUB_ENV
+          echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
+          echo "HTTP_SERVER=8000" >> $GITHUB_ENV
+
+      - name: Test Docker Compose Dev
+        run: |
+          docker compose -f docker-compose-dev.yml up -d
+          docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
+          docker compose -f docker-compose-dev.yml down
+
+      - name: Test Docker Compose Prod
+        run: |
+          docker compose -f docker-compose.yml up -d
+          docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
+          docker compose -f docker-compose.yml down
 
   build-and-push-docker:
     name: Build and Push Docker Image
