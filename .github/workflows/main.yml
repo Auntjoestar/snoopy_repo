@@ -71,18 +71,11 @@ jobs:
           echo "DB_PASSWORD=test" >> $GITHUB_ENV
           echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
           echo "HTTP_SERVER=8000" >> $GITHUB_ENV
-<<<<<<< HEAD
-  
-      - name: Check Media Directory Permissions
-        run: |
-          ls -ld /usr/src/app/media
-=======
           
       - name: Create Media Directory
         run: |
           mkdir -p $HOME/media
           chmod 777 $HOME/media  # Set permissions to allow all users to read/write
->>>>>>> 41e61c804ccfe525b5a76e251eb9ca9b35e14e7d
 
       - name: Test Docker Compose Dev
         run: |
