@@ -10,7 +10,16 @@ services:
       - "${HTTP_SERVER}:8000"
     depends_on:
       - charlie
-    command: python snoopy_repo/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+    env_file:
+      - .env
   charlie:
     image: postgres
     restart: unless-stopped

@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import sys
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,9 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_(@y15+2sd=6pqy&7gj3#bcz%0+6xf6!)=c7*wmew7(x=^+q#p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
+import ast  
+
+ALLOWED_HOSTS = ast.literal_eval(env('ALLOWED_HOSTS', default='["127.0.0.1", "localhost", "0.0.0.0"]'))
+
+
 
 # Application definition
 
@@ -76,8 +83,12 @@ WSGI_APPLICATION = 'snoopy_repo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME', default='snoopy_repo'),
+        'USER': env('DB_USER', default='snoopy'),
+        'PASSWORD': env('DB_PASSWORD', default='SnoopingAround'),
+        'HOST': env('DB_HOST', default='localhost'),
+        'PORT': env('DB_PORT', default='5432'),
     }
 }
 
