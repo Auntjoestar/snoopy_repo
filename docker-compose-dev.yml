@@ -6,6 +6,7 @@ services:
       dockerfile: DOCKERFILE.dev
     volumes:
       - .:/usr/src/app/
+      - ./media:/usr/src/app/media
     ports:
       - "${HTTP_SERVER}:8000"
     depends_on:
