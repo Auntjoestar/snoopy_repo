@@ -10,22 +10,22 @@ on:
 
 jobs:
   test-docker-compose:
-  runs-on: ubuntu-latest
-  steps:
-  - name: Check out code
-    uses: actions/checkout@v3	
-      
-  - name: Test Docker Compose Dev
-    run: |
-          docker compose -f docker-compose.dev.yml up -d
-          docker compose -f docker-compose.dev.yml exec snoopy python manage.py test snoopy_images/
-          docker compose -f docker-compose.dev.yml down
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3	
+        
+    - name: Test Docker Compose Dev
+      run: |
+            docker compose -f docker-compose.dev.yml up -d
+            docker compose -f docker-compose.dev.yml exec snoopy python manage.py test snoopy_images/
+            docker compose -f docker-compose.dev.yml down
 
-  - name: Test Docker Compose Prod
-    run: |
-      docker compose -f docker-compose.yml up -d
-      docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
-      docker compose -f docker-compose.yml down
+    - name: Test Docker Compose Prod
+      run: |
+        docker compose -f docker-compose.yml up -d
+        docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
+        docker compose -f docker-compose.yml down
 
   build-and-push-docker:
     name: Build and Push Docker Image
