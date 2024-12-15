@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "UID=$(id -u)" >> $GITHUB_ENV
           echo "GID=$(id -g)" >> $GITHUB_ENV
-          echo "DB_HOST=charlie" >> $GITHUB_ENV
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DB_NAME=testdb" >> $GITHUB_ENV
           echo "DB_USER=test" >> $GITHUB_ENV
