@@ -11,6 +11,18 @@ on:
 jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
+
+    services:
+      charlie:
+        image: postgres 
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
