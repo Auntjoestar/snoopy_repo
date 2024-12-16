@@ -10,6 +10,7 @@ on:
 
 jobs:
   test-docker-compose:
+    name: "Test docker compose on Github Pages Intance"
     runs-on: ubuntu-latest
 
     steps:
