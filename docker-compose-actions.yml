@@ -1,0 +1,34 @@
+services:
+  snoopy:
+    build:
+      context: .
+      args:
+        - UID=1000
+        - GID=1000
+      dockerfile: DOCKERFILE
+    # Use an internal directory for media to avoid volume permission issues
+    volumes:
+      - /usr/src/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - charlie
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=charlie
+      - DB_PORT=5432
+      - DB_NAME=testDb
+      - DB_USER=testuser
+      - DB_PASSWORD=test
+      - ALLOWED_HOSTS=["127.0.0.1", "localhost", "0.0.0.0"]
+
+  charlie:
+    image: postgres
+    restart: unless-stopped
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: testuser
+      POSTGRES_DB: testDb
+    # No persistent volumes needed in CI
