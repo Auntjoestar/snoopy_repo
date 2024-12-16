@@ -6,8 +6,8 @@ RUN apt update && \
     apt install -y sudo && \
     addgroup --gid $GID nonroot && \
     adduser --disabled-password --gecos '' --uid $UID --gid $GID nonroot && \
-    echo "nonroot ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers &&
-    
+    echo "nonroot ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers 
+
 USER nonroot
 
 WORKDIR /usr/src/app
