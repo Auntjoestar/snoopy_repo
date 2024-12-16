@@ -10,7 +10,6 @@ RUN apt update && \
 
 USER root
 
-# Ensure /usr/src/app is writable by nonroot
 WORKDIR /usr/src/app
 RUN mkdir -p /usr/src/app && chown -R $UID:$GID /usr/src/app
 
@@ -21,7 +20,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=nonroot:nonroot . /usr/src/app/
 
-# Create media/images with proper permissions
 RUN mkdir -p /usr/src/app/media/images
 RUN chmod -R 775 /usr/src/app/media/images
 

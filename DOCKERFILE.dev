@@ -1,15 +1,26 @@
 FROM python:latest
+ARG UID
+ARG GID
+
+RUN apt update && \
+    apt install -y sudo && \
+    addgroup --gid $GID nonroot && \
+    adduser --disabled-password --gecos '' --uid $UID --gid $GID nonroot && \
+    echo "nonroot ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers 
+
+USER root
 
 WORKDIR /usr/src/app
-COPY requirements.txt ./
+RUN mkdir -p /usr/src/app && chown -R $UID:$GID /usr/src/app
+
+USER nonroot
+
+COPY --chown=nonroot:nonroot requirements.txt ./ 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /usr/src/app/
+COPY --chown=nonroot:nonroot . /usr/src/app/
 
-RUN whoami
 RUN mkdir -p /usr/src/app/media/images
-RUN chmod -R 777 /usr/src/app/media/images
-
-RUN ls -ld /usr/src/app/media/images
+RUN chmod -R 775 /usr/src/app/media/images
 
 EXPOSE 8000

@@ -9,40 +9,14 @@ on:
       - main
 
 jobs:
-  test-docker-compose-dev:
+  test-docker-compose:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Test Docker Compose Dev
-        uses: adambirds/docker-compose-action@v1.5.0
-        with:
-          compose-file: "./docker-compose-dev.yml"
-          up-flags: "-d --build"
-          down-flags: "--volumes --remove-orphans"
-          test-container: "snoopy"
-          test-command: "python manage.py test ./snoopy_images"
-        env: 
-          HTTP_SERVER: 8000
-          DB_HOST: "Charlie"
-          DB_PORT: 5432
-          DB_NAME: "testDb"
-          DB_USER: "testuser"
-          DB_PASSWORD: "test"
-          UID: 1000
-          GID: 1000
-          ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
-
-  test-docker-compose-prod:  
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Test Docker Compose Prod
+      - name: Test Docker Compose Actions
         uses: adambirds/docker-compose-action@v1.5.0
         with:
           compose-file: "./docker-compose-actions.yml"
@@ -60,3 +34,20 @@ jobs:
           ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
           UID: 1000
           GID: 1000
+
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}

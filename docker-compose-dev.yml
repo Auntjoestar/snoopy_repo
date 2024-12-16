@@ -2,15 +2,18 @@ services:
   snoopy:
     build: 
       context: .
+      args:
+        - UID=${UID}
+        - GID=${GID}
       dockerfile: DOCKERFILE.dev
     volumes:
       - .:/usr/src/app/
-      - ./media:/usr/src/app/media
+      - ./media:/usr/src/app/media:rw
     ports:
       - "${HTTP_SERVER}:8000"
     depends_on:
       - charlie
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
