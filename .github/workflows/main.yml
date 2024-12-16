@@ -22,4 +22,5 @@ jobs:
           compose-file: "./docker-compose-dev.yml"
           up-flags: "-d --build"
           down-flags: "--volumes --remove-orphans"
-          test-command: "docker-compose -f docker-compose-dev.yml exec snoopy python manage.py test ./snoopy-images"
+          test-container: "snoopy"
+          test-command: "python manage.py test ./snoopy-images"
