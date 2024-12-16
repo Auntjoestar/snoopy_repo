@@ -12,54 +12,14 @@ jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
 
-    services:
-      charlie:
-        image: postgres 
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: testdb
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Set up environment variables
-        run: |
-          echo "UID=$(id -u)" >> $GITHUB_ENV
-          echo "GID=$(id -g)" >> $GITHUB_ENV
-          echo "DB_HOST=localhost" >> $GITHUB_ENV
-          echo "DB_PORT=5432" >> $GITHUB_ENV
-          echo "DB_NAME=testdb" >> $GITHUB_ENV
-          echo "DB_USER=test" >> $GITHUB_ENV
-          echo "DB_PASSWORD=test" >> $GITHUB_ENV
-          echo "ALLOWED_HOSTS=['127.0.0.1', 'localhost', '0.0.0.0']" >> $GITHUB_ENV
-          echo "HTTP_SERVER=8000" >> $GITHUB_ENV
-
-      - name: Set permissions for media directory
-        run: |
-          sudo mkdir -p ./media/images
-          sudo chown -R $USER:$USER ./media
-
-      - name: Fix media permissions
-        run: |
-          sudo chmod -R 777 ./media
-          sudo chown -R $USER:$USER ./media  # Ensure the user inside the container has ownership
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Test Docker Compose Dev
-        run: |
-          docker compose -f docker-compose-dev.yml up -d
-          docker compose -f docker-compose-dev.yml ps
-          docker compose -f docker-compose.yml exec snoopy chmod -R 777 /usr/src/app/media
-          docker compose -f docker-compose-dev.yml exec snoopy python manage.py test snoopy_images/
-          docker compose -f docker-compose-dev.yml down --volumes
-
-      - name: Test Docker Compose Prod
-        run: |
-          docker compose -f docker-compose.yml up -d
-          docker compose -f docker-compose.yml ps
-          docker compose -f docker-compose.yml exec snoopy python manage.py test snoopy_images/
-          docker compose -f docker-compose.yml down --volumes
+      - uses: adambirds/docker-compose-action@v1.5.0
+        with:
+          compose-file: "./docker-compose-dev.yml"
+          up-flags: "-d --build"
+          down-flags: "--volumes --remove-orphans"
+          test-command: "docker-compose -f docker-compose-dev.yml exec snoopy python manage.py test ./snoopy-images"
