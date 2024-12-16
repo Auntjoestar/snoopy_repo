@@ -23,7 +23,7 @@ jobs:
           up-flags: "-d --build"
           down-flags: "--volumes --remove-orphans"
           test-container: "snoopy"
-          test-command: "python manage.py test ./snoopy-images"
+          test-command: "python manage.py test ./snoopy_images"
         env: 
           HTTP_SERVER: 8000
           DB_HOST: "Charlie"
