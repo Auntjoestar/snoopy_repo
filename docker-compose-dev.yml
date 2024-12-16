@@ -1,5 +1,6 @@
 services:
   snoopy:
+    user: "${UID}:${GID}"
     build: 
       context: .
       dockerfile: DOCKERFILE.dev

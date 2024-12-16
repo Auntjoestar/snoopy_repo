@@ -10,6 +10,8 @@ RUN apt update && \
 
 USER nonroot
 
+RUN whoami
+
 WORKDIR /usr/src/app
 COPY --chown=nonroot:nonroot requirements.txt ./ 
 RUN chmod -R 755 /usr/src/app
