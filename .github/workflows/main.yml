@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test-docker-compose:
+  test-docker-compose-dev:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,22 +34,23 @@ jobs:
           UID: 1000
           GID: 1000
           ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
-        
-      - name: Test Docker Compose Prod
-        uses: adambirds/docker-compose-action@v1.5.0
-        with:
-          compose-file: "./docker-compose.yml"
-          up-flags: "-d --build"
-          down-flags: "--volumes --remove-orphans"
-          test-container: "snoopy"
-          test-command: "python manage.py test ./snoopy_images"
-        env: 
-          HTTP_SERVER: 8000
-          DB_HOST: "Charlie"
-          DB_PORT: 5432
-          DB_NAME: "testDb"
-          DB_USER: "testuser"
-          DB_PASSWORD: "test"
-          ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
-          UID: 1000
-          GID: 1000
+
+  test-docker-compose-prod:  
+    - name: Test Docker Compose Prod
+      uses: adambirds/docker-compose-action@v1.5.0
+      with:
+        compose-file: "./docker-compose.yml"
+        up-flags: "-d --build"
+        down-flags: "--volumes --remove-orphans"
+        test-container: "snoopy"
+        test-command: "python manage.py test ./snoopy_images"
+      env: 
+        HTTP_SERVER: 8000
+        DB_HOST: "Charlie"
+        DB_PORT: 5432
+        DB_NAME: "testDb"
+        DB_USER: "testuser"
+        DB_PASSWORD: "test"
+        ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
+        UID: 1000
+        GID: 1000
