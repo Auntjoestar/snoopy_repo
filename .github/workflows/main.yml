@@ -24,3 +24,13 @@ jobs:
           down-flags: "--volumes --remove-orphans"
           test-container: "snoopy"
           test-command: "python manage.py test ./snoopy-images"
+          env: 
+            HTTP_SERVER: 8000
+            DB_HOST: "Charlie"
+            DB_PORT: 5432
+            DB_NAME: "testDb"
+            DB_USER: "testuser"
+            DB_PASSWORD: "test"
+            UID: 1000
+            GID: 1000
+            ALLOWED_HOSTS: '["127.0.0.1", "localhost", "0.0.0.0"]'
