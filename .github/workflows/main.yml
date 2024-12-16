@@ -51,5 +51,10 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/snoopy:latest -f DOCKERFILE .
+          docker build \
+          -- build-arg UID=$(id -u) \
+          -- build-arg GID=$(id -g) \
+          -t ${{ secrets.DOCKER_USERNAME }}/snoopy:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/snoopy:latest
+
+        
