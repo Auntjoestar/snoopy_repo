@@ -6,7 +6,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app/
 
+RUN whoami
 RUN mkdir -p /usr/src/app/media/images
 RUN chown -R 1000:1000 /usr/src/app/media
+RUN ls -ld /usr/src/app/media/images
 
 EXPOSE 8000
