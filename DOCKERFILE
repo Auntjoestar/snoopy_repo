@@ -20,4 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app/
 
+RUN mkdir -p /usr/src/app/media/images
+RUN chmod -R 775 /usr/src/app/media/images
+
 EXPOSE 8000
