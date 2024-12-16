@@ -1,9 +1,14 @@
 services:
   snoopy:
-    user: "${UID}:${GID}"
-    build:
+    build: 
       context: .
+      args:
+        - UID: ${UID}
+        - GID: ${GID}
       dockerfile: DOCKERFILE
+    volumes:
+      - .:/usr/src/app/
+      - ./media:/usr/src/app/media
     ports:
       - "${HTTP_SERVER}:8000"
     depends_on:
@@ -15,10 +20,11 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
   charlie:
     image: postgres
-    restart: always
-    ports:
+    restart: unless-stopped
+    ports: 
       - "${DB_PORT}:5432"
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
