@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Test Docker Compose Dev
       - uses: adambirds/docker-compose-action@v1.5.0
-        with:
+      - with:
           compose-file: "./docker-compose-dev.yml"
           up-flags: "-d --build"
           down-flags: "--volumes --remove-orphans"
