@@ -1,0 +1,22 @@
+services:
+  snoopy:
+    # Remove host-to-container volume to avoid permission issues
+    volumes:
+      - /usr/src/app/media  # Internal-only media directory
+    environment:
+      - DB_HOST=charlie  # Ensure correct service name for the database
+      - DB_PORT=5432
+      - DB_NAME=testDb
+      - DB_USER=testuser
+      - DB_PASSWORD=test
+      - ALLOWED_HOSTS=["127.0.0.1", "localhost", "0.0.0.0"]
+    command: python manage.py test ./snoopy_images  # Run tests automatically
+
+  charlie:
+    # Reduce verbosity, no persistent volumes
+    volumes:
+      - /var/lib/postgresql/data  # Temporary in CI
+    environment:
+      POSTGRES_DB: testDb
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: test
