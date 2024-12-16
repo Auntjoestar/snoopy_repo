@@ -13,7 +13,7 @@ services:
       - "${HTTP_SERVER}:8000"
     depends_on:
       - charlie
-    command: chmod 775 /usr/src/app/media/images && python manage.py runserver
+    command: python manage.py runserver
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
