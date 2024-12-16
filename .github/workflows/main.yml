@@ -54,7 +54,7 @@ jobs:
           docker build \
           --build-arg UID=$(id -u) \
           --build-arg GID=$(id -g) \
-          -t ${{ secrets.DOCKER_USERNAME }}/snoopy:latest .
+          -t ${{ secrets.DOCKER_USERNAME }}/snoopy:latest -f DOCKERFILE .
           docker push ${{ secrets.DOCKER_USERNAME }}/snoopy:latest
 
         
