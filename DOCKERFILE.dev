@@ -9,6 +9,7 @@ COPY . /usr/src/app/
 RUN whoami
 RUN mkdir -p /usr/src/app/media/images
 RUN chmod -R 777 /usr/src/app/media/images
+
 RUN ls -ld /usr/src/app/media/images
 
 EXPOSE 8000
